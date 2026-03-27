@@ -1,89 +1,471 @@
+html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icon.png">
-    <title>O futuro da IA, está em suas mãos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>BioFlashcards - Vestibular Brasil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b3b2f 0%, #1a4d3a 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 248, 225, 0.95);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 215, 150, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            transition: all 0.2s;
+        }
+
+        /* Cabeçalho com logos */
+        .header {
+            background: #fef7e0;
+            padding: 1.2rem 2rem;
+            border-bottom: 4px solid #ffb347;
+            text-align: center;
+        }
+
+        .universities {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .uni-logo {
+            background: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .uni-logo:hover {
+            transform: scale(1.02);
+            background: #fff5e6;
+        }
+
+        .uni-logo span {
+            font-size: 1.3rem;
+        }
+
+        .title {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f6e43, #ffb347);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .sub {
+            color: #2c5a2e;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        /* Painel de stats */
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            background: #e9f5e6;
+            padding: 0.8rem 2rem;
+            border-bottom: 1px solid #c8e0c2;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .score-box, .card-counter {
+            background: white;
+            border-radius: 60px;
+            padding: 0.3rem 1rem;
+            font-weight: bold;
+            box-shadow: inset 0 0 0 1px #d4e2cc, 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Área do flashcard */
+        .flashcard-area {
+            padding: 2rem 2rem 1.5rem;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid #ffe1a0;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.01);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-content {
+            padding: 2rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #1e3a2f;
+            word-break: break-word;
+        }
+
+        .answer-area {
+            background: #f9f2df;
+            margin: 1rem 2rem 2rem;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #2d4a22;
+            border-left: 6px solid #ffb347;
+        }
+
+        .answer-label {
+            font-weight: bold;
+            color: #b45f1b;
+            letter-spacing: 1px;
+        }
+
+        .feedback {
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .correct-feedback {
+            color: #1f8a4c;
+        }
+
+        .wrong-feedback {
+            color: #c7362b;
+        }
+
+        /* Botões */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 2rem 2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #f5bc70;
+            border: none;
+            font-weight: bold;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.1s linear;
+            color: #2c2b26;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background: #ffaa44;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background: #5f8b6f;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #3f6e52;
+        }
+
+        /* Rodapé comemorativo */
+        .footer {
+            background: #2c5e47;
+            color: #ffefcf;
+            text-align: center;
+            padding: 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .card-content { font-size: 1.2rem; padding: 1.2rem; }
+            .answer-area { font-size: 1rem; }
+            .title { font-size: 1.5rem; }
+            .universities { gap: 0.8rem; }
+        }
+    </style>
 </head>
-<style>
-    body{
-    min-height:150vh;
-    }
-
-    ::-webkit-scrollbar 
-    {
-        width: 12px;
-    }
-
-    ::-webkit-scrollbar-track 
-    {
-        background: green;
-    }
-
-    ::-webkit-scrollbar-thumb 
-    {
-        background: #323683;
-        border-radius: 14px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover 
-    {
-        opacity: .95;
-    }
-  </style>
 <body>
-    <div class="caixa-principal">
-        <br>
-        <h1>RasinformaticA</h1>
-        <br>
-        <h2>Você decide o futuro da IA</h2>
-        <div class="caixa-perguntas"></div>
-        <div class="caixa-alternativas"></div>
-        <div class="caixa-resultado">
-            <p class="texto-resultado"></p>
+<div class="container">
+    <div class="header">
+        <div class="universities">
+            <div class="uni-logo"><span>🎓</span> USP</div>
+            <div class="uni-logo"><span>🔬</span> UNICAMP</div>
+            <div class="uni-logo"><span>🌿</span> UFMG</div>
+            <div class="uni-logo"><span>🏖️</span> UFRJ</div>
+            <div class="uni-logo"><span>🏛️</span> UnB</div>
+            <div class="uni-logo"><span>🌎</span> UFRGS</div>
         </div>
-        <br>
-        
-        <div class="relogio">
-            <div>
-                <span id="horas">00</span>
-                <span class="tempo">Horas</span>
-            </div>
-    
-            <div>
-                <span id="minutos">00</span>
-                <span class="tempo">Minutos</span>
-            </div>
-    
-            <div>
-                <span id="segundos">00</span>
-                <span class="tempo">Segundos</span>
-            </div>
-        </div>
-        <section>
-            <footer>
-                <a href="https://github.com/professor-rafael" target="_blank" rel="noopener noreferrer">
-                    <img src="github.png"></img>
-                    <p>Github</p>
-                </a>
-                <a href="https://www.youtube.com/channel/UCBRq6fO_-P6yPOVbC0yZVmQ" target="_blank" rel="noopener noreferrer">
-                    <img src="youtube.png"></img>
-                    <p>Youtube</p>
-                    <a href="https://api.whatsapp.com/send?phone=5543996561825" target="_blank" rel="noopener noreferrer">
-                    <img src="Whatsapp.png"></img>
-                    <p>Whatsapp</p>
-                    </a>
-                    <a href="https://www.deepseek.com/">
-                        <img src="deepseek-color.png"></img>
-                        <p>Deepseek</p>
-                    </a>
-                </a>
-            </footer>
-        </section>
+        <div class="title">🧬 BIOFLASHCARDS 🧫</div>
+        <div class="sub">Vestibular + ENEM | Biologia completa</div>
     </div>
-    
+
+    <div class="stats-panel">
+        <div class="score-box">🏆 Pontuação: <span id="scoreValue">0</span></div>
+        <div class="card-counter">📇 Card <span id="currentCardIdx">1</span> / <span id="totalCards">0</span></div>
+    </div>
+
+    <div class="flashcard-area">
+        <div class="flashcard" id="flashcard">
+            <div class="card-content" id="questionText">
+                Clique para revelar a resposta? Toque no card!
+            </div>
+        </div>
+        <div class="answer-area" id="answerArea">
+            <span class="answer-label">🔍 RESPOSTA:</span> <span id="answerText">-</span>
+            <div id="feedbackMsg" class="feedback"></div>
+        </div>
+        <div class="buttons">
+            <button id="correctBtn">✅ ACERTEI ( +1 )</button>
+            <button id="wrongBtn">❌ ERREI (estudar)</button>
+            <button id="nextBtn">➡️ PRÓXIMO CARD</button>
+            <button id="resetBtn" class="reset-btn">🔄 REINICIAR</button>
+        </div>
+    </div>
+    <div class="footer">
+        🧪 Vestibulando foco total! • Simulado com flashcards oficiais • Universidades Públicas do Brasil
+    </div>
+</div>
+
+<script>
+    // ======================= FLASHCARDS DE BIOLOGIA (estilo vestibular) =======================
+    const flashcardsData = [
+        {
+            question: "Qual organela é responsável pela respiração celular e produção de ATP?",
+            answer: "Mitocôndria."
+        },
+        {
+            question: "O que é crossing-over e em qual fase da meiose ocorre?",
+            answer: "Troca de segmentos entre cromátides homólogas; ocorre na prófase I."
+        },
+        {
+            question: "Qual a função dos ribossomos?",
+            answer: "Síntese de proteínas (tradução do RNA mensageiro)."
+        },
+        {
+            question: "Diferencie célula procarionte de eucarionte.",
+            answer: "Procarionte: sem núcleo definido e organelas membranosas. Eucarionte: núcleo individualizado e organelas como mitocôndrias."
+        },
+        {
+            question: "O que é fotossíntese e onde ocorre nos vegetais?",
+            answer: "Processo de produção de glicose a partir de CO2 e luz, ocorre nos cloroplastos."
+        },
+        {
+            question: "Cite os três tipos de tecido muscular e suas características básicas.",
+            answer: "Estriado esquelético (voluntário), estriado cardíaco (involuntário, coração), liso (involuntário, vísceras)."
+        },
+        {
+            question: "Qual a principal diferença entre cadeia alimentar e teia alimentar?",
+            answer: "Cadeia é uma sequência linear de organismos; teia é um conjunto de cadeias interligadas."
+        },
+        {
+            question: "O que são hormônios? Dê um exemplo de feedback negativo.",
+            answer: "Substâncias químicas que regulam funções orgânicas. Ex: controle da glicemia com insulina e glucagon."
+        },
+        {
+            question: "Qual a função do sistema linfático?",
+            answer: "Defesa imunológica, drenagem de líquido intersticial e transporte de lipídios."
+        },
+        {
+            question: "Explique a teoria da endossimbiose.",
+            answer: "Mitocôndrias e cloroplastos originaram-se de organismos procariontes que foram englobados e estabeleceram relação simbiótica."
+        },
+        {
+            question: "Qual a diferença entre DNA e RNA quanto à estrutura e função?",
+            answer: "DNA: dupla hélice, armazena info genética. RNA: fita simples, atua na síntese proteica (mRNA, tRNA, rRNA)."
+        },
+        {
+            question: "O que são células-tronco?",
+            answer: "Células indiferenciadas com capacidade de autorrenovação e diferenciação em vários tipos celulares."
+        },
+        {
+            question: "Descreva as fases da mitose.",
+            answer: "Prófase, metáfase, anáfase e telófase."
+        },
+        {
+            question: "Qual a importância da biodiversidade para os ecossistemas?",
+            answer: "Garante estabilidade, serviços ecossistêmicos, ciclagem de nutrientes e resiliência."
+        },
+        {
+            question: "O que é seleção natural?",
+            answer: "Mecanismo evolutivo onde indivíduos mais adaptados ao ambiente têm maior chance de sobreviver e reproduzir."
+        }
+    ];
+
+    // Variáveis de estado
+    let currentIndex = 0;            // 0-indexed
+    let score = 0;
+    let answered = false;            // se o usuário já usou acertou/errou pro card atual
+    let currentCardRevealed = false; // se a resposta está visível (tocou no card)
+
+    const questionEl = document.getElementById("questionText");
+    const answerEl = document.getElementById("answerText");
+    const feedbackMsgDiv = document.getElementById("feedbackMsg");
+    const scoreSpan = document.getElementById("scoreValue");
+    const currentIdxSpan = document.getElementById("currentCardIdx");
+    const totalCardsSpan = document.getElementById("totalCards");
+    const flashcardDiv = document.getElementById("flashcard");
+
+    // Atualiza total de cards
+    totalCardsSpan.textContent = flashcardsData.length;
+
+    // Função para carregar o card atual na tela (sem alterar estado answered/revealed além do necessário)
+    function loadCurrentCard() {
+        const card = flashcardsData[currentIndex];
+        questionEl.textContent = card.question;
+        // se a resposta não foi revelada ainda, mostramos placeholders
+        if (!currentCardRevealed) {
+            answerEl.textContent = "❓ Clique no card para ver a resposta ❓";
+            feedbackMsgDiv.innerHTML = "";
+        } else {
+            answerEl.textContent = card.answer;
+            // se já revelou mas ainda não deu feedback, manter feedback vazio ou o que tiver
+            if (!answered) {
+                feedbackMsgDiv.innerHTML = "";
+            } else {
+                // se já respondeu, manter mensagem de feedback (mas não apagar)
+                // preservar
+            }
+        }
+        currentIdxSpan.textContent = currentIndex + 1;
+    }
+
+    // Revelar resposta ao clicar no flashcard
+    function revealAnswer() {
+        if (currentCardRevealed) return; // já visível
+        currentCardRevealed = true;
+        const card = flashcardsData[currentIndex];
+        answerEl.textContent = card.answer;
+        // se ainda não respondeu, feedback permanece neutro
+        if (!answered) {
+            feedbackMsgDiv.innerHTML = "💡 Resposta revelada! Avalie se acertou ou errou.";
+        }
+    }
+
+    // Processar acerto
+    function handleCorrect() {
+        if (answered) {
+            feedbackMsgDiv.innerHTML = "<span style='color:#b45f1b'>⚠️ Você já avaliou este card! Vá para o próximo.</span>";
+            return;
+        }
+        if (!currentCardRevealed) {
+            feedbackMsgDiv.innerHTML = "<span style='color:#c7362b'>🔔 Primeiro clique no card para ver a resposta, depois avalie.</span>";
+            return;
+        }
+        // Acertou!
+        score++;
+        scoreSpan.textContent = score;
+        answered = true;
+        feedbackMsgDiv.innerHTML = "<span class='correct-feedback'>✅ Parabéns! +1 ponto. Você acertou! 🎉</span>";
+    }
+
+    function handleWrong() {
+        if (answered) {
+            feedbackMsgDiv.innerHTML = "<span style='color:#b45f1b'>⚠️ Você já registrou esse card! Siga para o próximo.</span>";
+            return;
+        }
+        if (!currentCardRevealed) {
+            feedbackMsgDiv.innerHTML = "<span style='color:#c7362b'>🔔 Clique no card para ver a resposta primeiro.</span>";
+            return;
+        }
+        // Errou: não aumenta pontuação
+        answered = true;
+        feedbackMsgDiv.innerHTML = "<span class='wrong-feedback'>❌ Que pena! Anote para revisar. Continue praticando!</span>";
+    }
+
+    // Próximo card: reseta estado do card atual
+    function nextCard() {
+        if (currentIndex + 1 < flashcardsData.length) {
+            currentIndex++;
+            // resetar flags
+            answered = false;
+            currentCardRevealed = false;
+            loadCurrentCard();
+        } else {
+            // fim dos flashcards
+            if (answered && currentIndex === flashcardsData.length - 1) {
+                feedbackMsgDiv.innerHTML = `<span style="color:#1f6e43">🏁 Você concluiu todos os cards! Pontuação final: ${score}/${flashcardsData.length}. Reinicie para recomeçar. 🧬🇧🇷</span>`;
+            } else {
+                feedbackMsgDiv.innerHTML = `<span style="color:#d97706">📚 Fim da lista! Clique em REINICIAR para refazer todos os flashcards e melhorar sua pontuação.</span>`;
+            }
+            // não faz nada se já no último
+        }
+    }
+
+    // Reiniciar totalmente o jogo
+    function resetGame() {
+        currentIndex = 0;
+        score = 0;
+        answered = false;
+        currentCardRevealed = false;
+        scoreSpan.textContent = score;
+        loadCurrentCard();
+        feedbackMsgDiv.innerHTML = "🔄 Jogo reiniciado! Estude com foco. Toque no card e responda.";
+        // garantir que resposta não fique exposta no primeiro card
+        const card = flashcardsData[0];
+        questionEl.textContent = card.question;
+        answerEl.textContent = "❓ Clique no card para ver a resposta ❓";
+        currentCardRevealed = false;
+    }
+
+    // Event listeners
+    flashcardDiv.addEventListener("click", revealAnswer);
+    document.getElementById("correctBtn").addEventListener("click", handleCorrect);
+    document.getElementById("wrongBtn").addEventListener("click", handleWrong);
+    document.getElementById("nextBtn").addEventListener("click", nextCard);
+    document.getElementById("resetBtn").addEventListener("click", resetGame);
+
+    // Inicialização
+    function init() {
+        currentIndex = 0;
+        score = 0;
+        answered = false;
+        currentCardRevealed = false;
+        scoreSpan.textContent = "0";
+        loadCurrentCard();
+        feedbackMsgDiv.innerHTML = "✨ Toque no card verde, estude a pergunta, depois clique em ACERTEI ou ERREI!";
+    }
+
+    init();
+</script>
 </body>
-<script src="script.js"></script>
 </html>
