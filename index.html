@@ -293,6 +293,436 @@
 </head>
 <body>
 <div class="container">
+    <!-- ==================== PARTE PARA ADICIONAR PERGUNTAS ==================== -->
+<!-- INSIRA ESTE BLOCO DENTRO DA TAG <div class="container">, APÓS A DIV DAS ABAS EXISTENTES, 
+     E ANTES DO FECHAMENTO DA TAG </div> DO CONTAINER. 
+     COLOQUE ESTE CÓDIGO ANTES DO ÚLTIMO </div> QUE FECHA O CONTAINER. -->
+
+<!-- Nova aba "Adicionar" no menu de matérias -->
+<div class="tabs" id="tabsContainer" style="margin-bottom: 0;">
+    <div class="tab" data-subject="biologia">🧬 BIOLOGIA</div>
+    <div class="tab" data-subject="fisica">⚡ FÍSICA</div>
+    <div class="tab" data-subject="quimica">🧪 QUÍMICA</div>
+    <div class="tab" data-subject="add" id="addTabBtn" style="background: #ffecd6;">➕ ADICIONAR</div>
+</div>
+
+<!-- Conteúdo da aba de adicionar perguntas (inicialmente escondido) -->
+<div id="addQuestionPanel" style="display: none; padding: 2rem; background: #fffef7; border-top: 2px solid #ffb347;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <h2 style="color: #1e5a42; margin-bottom: 1rem;">📝 Adicionar Nova Pergunta</h2>
+        <p style="color: #555; margin-bottom: 1.5rem;">Preencha os campos abaixo para adicionar uma questão personalizada. Ela será salva no navegador e aparecerá nos filtros correspondentes.</p>
+        
+        <div style="background: #f9f5ec; border-radius: 1.5rem; padding: 1.5rem;">
+            <!-- Formulário de adição -->
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">📚 Matéria *</label>
+                <select id="addSubject" style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd; background: white;">
+                    <option value="biologia">Biologia</option>
+                    <option value="fisica">Física</option>
+                    <option value="quimica">Química</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">🏛️ Vestibular / Origem *</label>
+                <select id="addUni" style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd; background: white;">
+                    <option value="fuvest">FUVEST/USP</option>
+                    <option value="uel">UEL</option>
+                    <option value="uem">UEM</option>
+                    <option value="ufpr">UFPR</option>
+                    <option value="unicamp">UNICAMP</option>
+                    <option value="enem">ENEM</option>
+                    <option value="personalizado">🔖 PERSONALIZADO</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">📌 Tópico / Assunto *</label>
+                <input type="text" id="addTopic" placeholder="Ex: Ecologia, Genética, Mecânica, Química Orgânica..." style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd;">
+                <small style="color: #777;">Digite qualquer tópico (será criado automaticamente se não existir)</small>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">❓ Pergunta *</label>
+                <textarea id="addQuestion" rows="3" placeholder="Digite a pergunta aqui..." style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd;"></textarea>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">🎯 Tipo de Questão *</label>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="questionType" value="multipla" checked> Múltipla Escolha (com alternativas)</label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="questionType" value="flashcard"> Flashcard (pergunta/resposta)</label>
+                </div>
+            </div>
+            
+            <!-- Campos para múltipla escolha (visível por padrão) -->
+            <div id="multiplaFields">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">✏️ Alternativas (uma por linha)</label>
+                    <textarea id="addOptions" rows="4" placeholder="Digite cada alternativa em uma nova linha&#10;Ex:&#10;Fotossíntese&#10;Respiração celular&#10;Fermentação&#10;Transpiração" style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd;"></textarea>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">✅ Alternativa Correta (número, começando em 1)</label>
+                    <input type="number" id="addCorrectIndex" min="1" max="10" value="1" style="width: 100px; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">📖 Explicação (opcional)</label>
+                    <textarea id="addExplanation" rows="2" placeholder="Explique o motivo da resposta correta..." style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd;"></textarea>
+                </div>
+            </div>
+            
+            <!-- Campos para flashcard (escondido inicialmente) -->
+            <div id="flashcardFields" style="display: none;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2c5a4a;">📖 Resposta *</label>
+                    <textarea id="addAnswer" rows="3" placeholder="Digite a resposta para este flashcard..." style="width: 100%; padding: 0.8rem; border-radius: 1rem; border: 1px solid #ddd;"></textarea>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button id="saveQuestionBtn" style="background: #2c7a4d; color: white; flex: 1;">💾 SALVAR PERGUNTA</button>
+                <button id="clearFormBtn" style="background: #ccc; flex: 0.5;">LIMPAR</button>
+            </div>
+            
+            <div id="addFeedback" style="margin-top: 1rem; padding: 0.8rem; border-radius: 1rem; display: none;"></div>
+        </div>
+        
+        <div style="margin-top: 2rem; background: #e8f0e6; border-radius: 1rem; padding: 1rem;">
+            <h3 style="color: #1e5a42;">📌 Minhas Perguntas Personalizadas</h3>
+            <p id="customCountMsg" style="font-size: 0.9rem;">Carregando...</p>
+            <button id="clearAllCustomBtn" style="background: #c73e2d; color: white; margin-top: 0.5rem; font-size: 0.8rem;">🗑️ REMOVER TODAS AS MINHAS PERGUNTAS</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ajuste para manter as abas consistentes */
+    .tab[data-subject="add"] {
+        background: #ffecd6;
+        color: #c25d00;
+    }
+    .tab[data-subject="add"].active {
+        background: #ffb347;
+        color: white;
+        border-bottom: 3px solid #fff;
+    }
+    #addQuestionPanel input, #addQuestionPanel textarea, #addQuestionPanel select {
+        font-family: inherit;
+        font-size: 0.95rem;
+    }
+    #addQuestionPanel input:focus, #addQuestionPanel textarea:focus, #addQuestionPanel select:focus {
+        outline: none;
+        border-color: #ffb347;
+        box-shadow: 0 0 0 2px rgba(255,180,71,0.2);
+    }
+</style>
+
+<script>
+    // ==================== SISTEMA DE ARMAZENAMENTO DE PERGUNTAS PERSONALIZADAS ====================
+    // Chave para armazenamento local
+    const STORAGE_KEY = "vestquest_perguntas_personalizadas";
+    
+    // Estrutura para armazenar perguntas personalizadas
+    let perguntasPersonalizadas = {
+        biologia: { fuvest: [], uel: [], uem: [], ufpr: [], unicamp: [], enem: [], personalizado: [] },
+        fisica: { fuvest: [], uel: [], uem: [], ufpr: [], unicamp: [], enem: [], personalizado: [] },
+        quimica: { fuvest: [], uel: [], uem: [], ufpr: [], unicamp: [], enem: [], personalizado: [] }
+    };
+    
+    // Carregar perguntas salvas
+    function carregarPerguntasPersonalizadas() {
+        const salvas = localStorage.getItem(STORAGE_KEY);
+        if (salvas) {
+            try {
+                const dados = JSON.parse(salvas);
+                // Mesclar com estrutura padrão
+                for (let mat in perguntasPersonalizadas) {
+                    if (dados[mat]) {
+                        for (let uni in perguntasPersonalizadas[mat]) {
+                            if (dados[mat][uni]) {
+                                perguntasPersonalizadas[mat][uni] = dados[mat][uni];
+                            }
+                        }
+                    }
+                }
+            } catch(e) { console.error("Erro ao carregar", e); }
+        }
+        atualizarContadorMsg();
+    }
+    
+    // Salvar no localStorage
+    function salvarPerguntasPersonalizadas() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(perguntasPersonalizadas));
+        atualizarContadorMsg();
+        // Recarregar os bancos dinâmicos para que as perguntas apareçam imediatamente
+        recarregarBancosDinamicos();
+    }
+    
+    // Função para mesclar perguntas personalizadas com as originais nos objetos globais
+    function recarregarBancosDinamicos() {
+        // Para cada matéria, para cada universidade, adicionar as perguntas personalizadas
+        // Precisamos acessar os objetos originais: questoesReais e flashcardsPersonalizados (vamos criar uma extensão)
+        // Vamos modificar a função getQuestionsFiltered para incluir as personalizadas
+        // Mas como a lógica já existe, vamos apenas garantir que o objeto global tenha referência
+        if (window.questoesReais) {
+            for (let materia in perguntasPersonalizadas) {
+                if (!window.questoesReais[materia]) window.questoesReais[materia] = {};
+                for (let uni in perguntasPersonalizadas[materia]) {
+                    if (!window.questoesReais[materia][uni]) window.questoesReais[materia][uni] = [];
+                    // Adicionar apenas as do tipo multipla escolha (que são do vestibular)
+                    const multiplas = perguntasPersonalizadas[materia][uni].filter(q => q.tipo === "multipla");
+                    // Não substituir, vamos manter as originais + personalizadas
+                    // Mas precisamos de um jeito de combinar. Vamos criar um array combinado na hora da consulta
+                    // Guardamos um metadado para consulta rápida
+                    window._personalizadasCache = perguntasPersonalizadas;
+                }
+            }
+        }
+        // Forçar atualização da interface se estiver na aba principal
+        if (typeof loadRandomQuestion === 'function' && document.getElementById('addQuestionPanel').style.display === 'none') {
+            // Se não estiver na aba de adicionar, recarrega a pergunta atual para refletir novas questões
+            if (typeof resetAndReload === 'function') resetAndReload();
+        }
+    }
+    
+    function atualizarContadorMsg() {
+        let total = 0;
+        for (let mat in perguntasPersonalizadas) {
+            for (let uni in perguntasPersonalizadas[mat]) {
+                total += perguntasPersonalizadas[mat][uni].length;
+            }
+        }
+        const msgDiv = document.getElementById("customCountMsg");
+        if (msgDiv) msgDiv.innerHTML = `🔹 Você tem ${total} pergunta(s) personalizada(s) salva(s).`;
+    }
+    
+    // Adicionar nova pergunta
+    function adicionarPergunta() {
+        const materia = document.getElementById("addSubject").value;
+        const uni = document.getElementById("addUni").value;
+        let topic = document.getElementById("addTopic").value.trim();
+        const perguntaTexto = document.getElementById("addQuestion").value.trim();
+        const tipo = document.querySelector('input[name="questionType"]:checked').value;
+        const feedbackDiv = document.getElementById("addFeedback");
+        
+        if (!perguntaTexto) {
+            feedbackDiv.style.display = "block";
+            feedbackDiv.innerHTML = "<span style='color:#c73e2d;'>❌ A pergunta não pode estar vazia!</span>";
+            return;
+        }
+        if (!topic) {
+            topic = "Geral";
+        }
+        
+        let novaQuestao = {
+            id: Date.now() + Math.random(),
+            assunto: topic,
+            pergunta: perguntaTexto,
+            tipo: tipo,
+            criada: new Date().toLocaleString()
+        };
+        
+        if (tipo === "multipla") {
+            const opcoesTexto = document.getElementById("addOptions").value.trim();
+            if (!opcoesTexto) {
+                feedbackDiv.style.display = "block";
+                feedbackDiv.innerHTML = "<span style='color:#c73e2d;'>❌ Digite as alternativas (uma por linha)!</span>";
+                return;
+            }
+            let opcoes = opcoesTexto.split('\n').filter(opt => opt.trim().length > 0);
+            if (opcoes.length < 2) {
+                feedbackDiv.style.display = "block";
+                feedbackDiv.innerHTML = "<span style='color:#c73e2d;'>❌ Mínimo de 2 alternativas!</span>";
+                return;
+            }
+            let corretaIndex = parseInt(document.getElementById("addCorrectIndex").value) - 1;
+            if (corretaIndex < 0 || corretaIndex >= opcoes.length) {
+                feedbackDiv.style.display = "block";
+                feedbackDiv.innerHTML = "<span style='color:#c73e2d;'>❌ Índice da alternativa correta inválido!</span>";
+                return;
+            }
+            const explicacao = document.getElementById("addExplanation").value.trim() || "Explicação personalizada.";
+            
+            novaQuestao.opcoes = opcoes;
+            novaQuestao.correta = corretaIndex;
+            novaQuestao.explicacao = explicacao;
+        } else {
+            const resposta = document.getElementById("addAnswer").value.trim();
+            if (!resposta) {
+                feedbackDiv.style.display = "block";
+                feedbackDiv.innerHTML = "<span style='color:#c73e2d;'>❌ A resposta do flashcard não pode estar vazia!</span>";
+                return;
+            }
+            novaQuestao.resposta = resposta;
+        }
+        
+        // Salvar na estrutura
+        if (!perguntasPersonalizadas[materia][uni]) {
+            perguntasPersonalizadas[materia][uni] = [];
+        }
+        perguntasPersonalizadas[materia][uni].push(novaQuestao);
+        salvarPerguntasPersonalizadas();
+        
+        feedbackDiv.style.display = "block";
+        feedbackDiv.innerHTML = "<span style='color:#2c7a4d;'>✅ Pergunta adicionada com sucesso! Ela já está disponível nos filtros.</span>";
+        
+        // Limpar formulário parcialmente (mantém matéria/uni para facilitar)
+        document.getElementById("addQuestion").value = "";
+        if (tipo === "multipla") {
+            document.getElementById("addOptions").value = "";
+            document.getElementById("addCorrectIndex").value = "1";
+            document.getElementById("addExplanation").value = "";
+        } else {
+            document.getElementById("addAnswer").value = "";
+        }
+        
+        setTimeout(() => {
+            feedbackDiv.style.display = "none";
+        }, 4000);
+    }
+    
+    function limparFormulario() {
+        document.getElementById("addQuestion").value = "";
+        document.getElementById("addTopic").value = "";
+        document.getElementById("addOptions").value = "";
+        document.getElementById("addExplanation").value = "";
+        document.getElementById("addAnswer").value = "";
+        document.getElementById("addCorrectIndex").value = "1";
+        const feedbackDiv = document.getElementById("addFeedback");
+        feedbackDiv.style.display = "none";
+    }
+    
+    function limparTodasPersonalizadas() {
+        if (confirm("⚠️ ATENÇÃO: Isso vai apagar TODAS as perguntas personalizadas que você adicionou. Deseja continuar?")) {
+            perguntasPersonalizadas = {
+                biologia: { fuvest: [], uel: [], uem: [], ufpr: [], unicamp: [], enem: [], personalizado: [] },
+                fisica: { fuvest: [], uel: [], uem: [], ufpr: [], unicamp: [], enem: [], personalizado: [] },
+                quimica: { fuvest: [], uel: [], uem: [], ufpr: [], unicamp: [], enem: [], personalizado: [] }
+            };
+            salvarPerguntasPersonalizadas();
+            document.getElementById("addFeedback").style.display = "block";
+            document.getElementById("addFeedback").innerHTML = "<span style='color:#2c7a4d;'>🗑️ Todas as perguntas personalizadas foram removidas.</span>";
+            setTimeout(() => {
+                document.getElementById("addFeedback").style.display = "none";
+            }, 3000);
+        }
+    }
+    
+    // Alternar entre campos múltipla escolha e flashcard
+    function toggleQuestionType() {
+        const tipo = document.querySelector('input[name="questionType"]:checked').value;
+        const multiplaDiv = document.getElementById("multiplaFields");
+        const flashDiv = document.getElementById("flashcardFields");
+        if (tipo === "multipla") {
+            multiplaDiv.style.display = "block";
+            flashDiv.style.display = "none";
+        } else {
+            multiplaDiv.style.display = "none";
+            flashDiv.style.display = "block";
+        }
+    }
+    
+    // Função para modificar o getQuestionsFiltered original e incluir personalizadas
+    // Precisamos sobrescrever a função original após o carregamento
+    function patchGetQuestionsFiltered() {
+        // Salvar referência original
+        const originalGetQuestions = window.getQuestionsFiltered;
+        if (originalGetQuestions) {
+            window.getQuestionsFiltered = function() {
+                let base = originalGetQuestions();
+                // Adicionar perguntas personalizadas do mesmo tipo (vestibular ou flashcard)
+                if (currentMode === "vestibular") {
+                    const personalizadasMat = perguntasPersonalizadas[currentSubject]?.[currentUni] || [];
+                    const filtradasMultipla = personalizadasMat.filter(q => q.tipo === "multipla");
+                    if (currentTopic !== "Todos") {
+                        const filtradasPorTopico = filtradasMultipla.filter(q => q.assunto === currentTopic);
+                        return [...base, ...filtradasPorTopico];
+                    }
+                    return [...base, ...filtradasMultipla];
+                } else {
+                    // Modo flashcard
+                    const personalizadasMat = perguntasPersonalizadas[currentSubject]?.[currentUni] || [];
+                    const filtradasFlash = personalizadasMat.filter(q => q.tipo === "flashcard");
+                    if (currentTopic !== "Todos") {
+                        const filtradasPorTopico = filtradasFlash.filter(q => q.assunto === currentTopic);
+                        return [...base, ...filtradasPorTopico];
+                    }
+                    return [...base, ...filtradasFlash];
+                }
+            };
+        }
+    }
+    
+    // Controlar abas (adicionar)
+    function setupAddTab() {
+        const addTab = document.getElementById("addTabBtn");
+        const addPanel = document.getElementById("addQuestionPanel");
+        const tabs = document.querySelectorAll('.tab');
+        const originalTabs = document.querySelectorAll('.tab[data-subject]');
+        
+        if (addTab) {
+            addTab.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Esconder todas as outras abas de conteúdo
+                addPanel.style.display = "block";
+                // Esconder conteúdo principal
+                const contentDiv = document.querySelector('.content');
+                if (contentDiv) contentDiv.style.display = "none";
+                // Remover active das outras abas
+                tabs.forEach(t => t.classList.remove('active'));
+                addTab.classList.add('active');
+                // Esconder o mode-selector e topic-filter? melhor manter, mas podemos esconder alguns elementos
+                const modeSelector = document.querySelector('.mode-selector');
+                const topicFilter = document.querySelector('.topic-filter');
+                if (modeSelector) modeSelector.style.display = "none";
+                if (topicFilter) topicFilter.style.display = "none";
+            });
+        }
+        
+        // Quando clicar em qualquer outra aba de matéria, mostrar conteúdo normal
+        originalTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                addPanel.style.display = "none";
+                const contentDiv = document.querySelector('.content');
+                if (contentDiv) contentDiv.style.display = "block";
+                const modeSelector = document.querySelector('.mode-selector');
+                const topicFilter = document.querySelector('.topic-filter');
+                if (modeSelector) modeSelector.style.display = "flex";
+                if (topicFilter) topicFilter.style.display = "flex";
+            });
+        });
+    }
+    
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', () => {
+        carregarPerguntasPersonalizadas();
+        setupAddTab();
+        toggleQuestionType();
+        
+        // Event listeners do formulário
+        document.querySelectorAll('input[name="questionType"]').forEach(radio => {
+            radio.addEventListener('change', toggleQuestionType);
+        });
+        const saveBtn = document.getElementById("saveQuestionBtn");
+        if (saveBtn) saveBtn.addEventListener('click', adicionarPergunta);
+        const clearBtn = document.getElementById("clearFormBtn");
+        if (clearBtn) clearBtn.addEventListener('click', limparFormulario);
+        const clearAllBtn = document.getElementById("clearAllCustomBtn");
+        if (clearAllBtn) clearAllBtn.addEventListener('click', limparTodasPersonalizadas);
+        
+        // Aguardar carregamento total do script principal e aplicar patch
+        setTimeout(() => {
+            if (typeof window.getQuestionsFiltered === 'function') {
+                patchGetQuestionsFiltered();
+            }
+            // Garantir que as abas originais tenham o comportamento correto
+            const contentDiv = document.querySelector('.content');
+            if (contentDiv && document.getElementById("addQuestionPanel").style.display !== "block") {
+                contentDiv.style.display = "block";
+            }
+        }, 100);
+    });
+</script>t
     <div class="header">
         <div class="universities" id="uniSelector">
             <!-- universidades solicitadas: usp/fuvest, uel, uem, ufpr, unicamp, enem -->
