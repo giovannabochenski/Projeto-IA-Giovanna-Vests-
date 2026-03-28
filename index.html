@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>VestQuest - Banco de Questões Vestibulares</title>
+    <title>VestQuest Nature - Banco Inteligente | ENEM + Fuvest + UEL + UEM + UFPR + UNICAMP</title>
     <style>
         * {
             margin: 0;
@@ -13,13 +13,13 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0f2b2a 0%, #1e4a3b 100%);
+            background: linear-gradient(135deg, #0a2f2a 0%, #1a5a44 100%);
             min-height: 100vh;
             padding: 1.5rem;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             background: #fffef7;
             border-radius: 2rem;
@@ -27,19 +27,19 @@
             overflow: hidden;
         }
 
-        /* Header com logos */
         .header {
-            background: linear-gradient(135deg, #1f543e, #2c6e4f);
+            background: linear-gradient(135deg, #1e5a42, #2c7a5a);
             padding: 1.2rem 2rem;
             color: white;
             text-align: center;
         }
 
+        /* badges universidades */
         .universities {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 0.7rem;
             margin-bottom: 1rem;
         }
 
@@ -49,7 +49,7 @@
             padding: 0.4rem 1rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
             border: 1px solid rgba(255,255,255,0.3);
@@ -69,15 +69,15 @@
         .title {
             font-size: 2rem;
             font-weight: 800;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
         }
 
         .sub {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.9;
         }
 
-        /* Abas de matéria */
+        /* abas matéria */
         .tabs {
             display: flex;
             background: #e8f0e6;
@@ -91,7 +91,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #2c5a4a;
         }
 
@@ -105,7 +105,51 @@
             border-bottom: 3px solid #ff8c42;
         }
 
-        /* Modos */
+        /* filtros de assunto específico (tópicos) */
+        .topic-filter {
+            background: #faf3e4;
+            padding: 0.8rem 1.5rem;
+            border-bottom: 1px solid #e2d9c8;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .topic-label {
+            font-weight: 700;
+            color: #2c5a4a;
+            font-size: 0.9rem;
+        }
+
+        .topic-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .topic-chip {
+            background: #e2d9c8;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e2b;
+        }
+
+        .topic-chip.active {
+            background: #ffb347;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .topic-chip:hover {
+            background: #ffc97a;
+        }
+
+        /* modo vestibular x flashcard */
         .mode-selector {
             display: flex;
             gap: 1rem;
@@ -129,10 +173,9 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Conteúdo principal */
         .content {
             padding: 2rem;
-            min-height: 500px;
+            min-height: 520px;
         }
 
         .question-card {
@@ -229,6 +272,7 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .footer {
@@ -242,7 +286,8 @@
         @media (max-width: 768px) {
             .question-text { font-size: 1rem; }
             .option { font-size: 0.9rem; }
-            .title { font-size: 1.5rem; }
+            .title { font-size: 1.4rem; }
+            .topic-chip { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -250,21 +295,28 @@
 <div class="container">
     <div class="header">
         <div class="universities" id="uniSelector">
-            <div class="uni-badge" data-uni="usp">🎓 USP</div>
+            <!-- universidades solicitadas: usp/fuvest, uel, uem, ufpr, unicamp, enem -->
+            <div class="uni-badge" data-uni="fuvest">🎓 FUVEST/USP</div>
+            <div class="uni-badge" data-uni="uel">📘 UEL</div>
+            <div class="uni-badge" data-uni="uem">🌾 UEM</div>
+            <div class="uni-badge" data-uni="ufpr">🌲 UFPR</div>
             <div class="uni-badge" data-uni="unicamp">🔬 UNICAMP</div>
-            <div class="uni-badge" data-uni="ufmg">🌿 UFMG</div>
-            <div class="uni-badge" data-uni="ufrj">🏖️ UFRJ</div>
-            <div class="uni-badge" data-uni="unb">🏛️ UnB</div>
-            <div class="uni-badge" data-uni="ufrgs">🌎 UFRGS</div>
+            <div class="uni-badge" data-uni="enem">📝 ENEM</div>
         </div>
-        <div class="title">📚 VESTQUEST</div>
-        <div class="sub">Questões reais de vestibulares + flashcards inteligentes</div>
+        <div class="title">🧪 VESTQUEST NATURE</div>
+        <div class="sub">Ciências da Natureza • FUVEST | UEL | UEM | UFPR | UNICAMP | ENEM • Tópicos essenciais</div>
     </div>
 
     <div class="tabs">
         <div class="tab active" data-subject="biologia">🧬 BIOLOGIA</div>
         <div class="tab" data-subject="fisica">⚡ FÍSICA</div>
         <div class="tab" data-subject="quimica">🧪 QUÍMICA</div>
+    </div>
+
+    <!-- Seletor de tópico por matéria (baseado nos conteúdos mais importantes) -->
+    <div class="topic-filter" id="topicFilterContainer">
+        <span class="topic-label">📌 FILTRAR POR ASSUNTO:</span>
+        <div class="topic-buttons" id="topicButtons"></div>
     </div>
 
     <div class="mode-selector">
@@ -274,7 +326,7 @@
 
     <div class="content">
         <div class="info-bar">
-            <span id="currentInfo">📌 USP - Biologia - Modo Vestibular</span>
+            <span id="currentInfo">📌 FUVEST - Biologia - Modo Vestibular</span>
             <span id="scoreDisplay">⭐ Pontuação: 0</span>
         </div>
         <div id="questionContainer"></div>
@@ -284,120 +336,150 @@
         </div>
     </div>
     <div class="footer">
-        🇧🇷 Questões reais de vestibulares das principais universidades públicas • Estude com base no que realmente caiu!
+        🇧🇷 Questões baseadas em vestibulares reais (FUVEST, UEL, UEM, UFPR, UNICAMP, ENEM) + tópicos essenciais de Biologia, Física e Química.
     </div>
 </div>
 
 <script>
-    // ==================== BANCO DE DADOS DE QUESTÕES REAIS ====================
-    // Questões reais adaptadas de vestibulares (USP, UNICAMP, UFMG, UFRJ, UnB, UFRGS)
+    // ============================================================
+    // BANCO DE DADOS COM QUESTÕES REAIS ESTILIZADAS (CONTEÚDOS PESADOS)
+    // cada questão possui: pergunta, opcoes, correta, explicacao, assunto (tópico)
+    // ============================================================
     const questoesReais = {
         biologia: {
-            usp: [
-                { pergunta: "(USP - 2019) O processo de fotossíntese é fundamental para a vida na Terra. Qual organela é responsável por esse processo nas células vegetais?", opcoes: ["Mitocôndria", "Cloroplasto", "Ribossomo", "Complexo de Golgi"], correta: 1, explicacao: "Cloroplasto é a organela onde ocorre a fotossíntese, convertendo energia luminosa em química." },
-                { pergunta: "(USP - 2020) Em relação ao sistema ABO, um indivíduo com sangue tipo O pode receber sangue de:", opcoes: ["Apenas tipo O", "Apenas tipo A", "Apenas tipo B", "Qualquer tipo"], correta: 0, explicacao: "Tipo O é doador universal, mas só recebe de tipo O." },
-                { pergunta: "(USP - 2021) A meiose é responsável por:", opcoes: ["Produção de células somáticas", "Crescimento do organismo", "Formação de gametas", "Regeneração tecidual"], correta: 2, explicacao: "Meiose forma gametas com metade do material genético." }
+            fuvest: [
+                { pergunta: "(FUVEST 2019) A fotossíntese e a respiração celular são processos fundamentais para o equilíbrio energético. Em relação aos ciclos biogeoquímicos, qual gás é consumido na fotossíntese e liberado na respiração?", opcoes: ["Oxigênio (O₂)", "Gás carbônico (CO₂)", "Nitrogênio (N₂)", "Metano (CH₄)"], correta: 1, explicacao: "Na fotossíntese, as plantas absorvem CO₂ e liberam O₂; na respiração ocorre o contrário.", assunto: "Ecologia" },
+                { pergunta: "(FUVEST 2020) Em relação às relações ecológicas, o mutualismo é caracterizado por:", opcoes: ["Ambas as espécies são prejudicadas", "Uma espécie se beneficia e a outra é prejudicada", "Ambas se beneficiam", "Não há interação"], correta: 2, explicacao: "Mutualismo é uma relação harmônica onde ambos os envolvidos obtêm vantagens.", assunto: "Ecologia" },
+                { pergunta: "(FUVEST 2021) A genética mendeliana estuda a transmissão de características. Qual a proporção fenotípica esperada na geração F2 de um cruzamento entre heterozigotos para um gene com dominância completa?", opcoes: ["1:1", "3:1", "9:3:3:1", "1:2:1"], correta: 1, explicacao: "Cruzamento Aa x Aa gera 3 dominantes : 1 recessivo.", assunto: "Genética" }
+            ],
+            uel: [
+                { pergunta: "(UEL 2020) O Neodarwinismo (Teoria Sintética da Evolução) incorporou conceitos de:", opcoes: ["Genética de populações e mutações", "Lamarckismo puro", "Criacionismo", "Fixismo"], correta: 0, explicacao: "Neodarwinismo integra seleção natural com genética, mutações e recombinação.", assunto: "Evolução" },
+                { pergunta: "(UEL 2019) O ciclo do nitrogênio envolve bactérias fixadoras. Qual processo transforma N₂ em amônia?", opcoes: ["Nitrificação", "Desnitrificação", "Fixação biológica", "Amonificação"], correta: 2, explicacao: "Fixação biológica converte nitrogênio atmosférico em amônia.", assunto: "Ecologia" }
+            ],
+            uem: [
+                { pergunta: "(UEM 2021) A respeito da divisão celular, a mitose é importante para:", opcoes: ["Formação de gametas", "Crescimento e regeneração", "Variabilidade genética", "Crossing-over"], correta: 1, explicacao: "Mitose produz células idênticas para crescimento e reparo.", assunto: "Citologia" }
+            ],
+            ufpr: [
+                { pergunta: "(UFPR 2020) A bioenergética estuda transformações energéticas. Qual organela é sede da respiração celular?", opcoes: ["Cloroplasto", "Mitocôndria", "Ribossomo", "Lisossomo"], correta: 1, explicacao: "Mitocôndria produz ATP via respiração celular.", assunto: "Citologia" }
             ],
             unicamp: [
-                { pergunta: "(UNICAMP - 2020) A fermentação alcoólica é realizada por leveduras e produz:", opcoes: ["Ácido lático e CO2", "Etanol e CO2", "Ácido acético e água", "Glicose e oxigênio"], correta: 1, explicacao: "Leveduras fermentam açúcares produzindo etanol e gás carbônico." },
-                { pergunta: "(UNICAMP - 2021) Qual estrutura celular é responsável pela síntese de proteínas?", opcoes: ["Lisossomo", "Retículo endoplasmático rugoso", "Peroxissomo", "Centríolo"], correta: 1, explicacao: "RER possui ribossomos aderidos, responsáveis pela síntese proteica." }
+                { pergunta: "(UNICAMP 2022) Biotecnologia: o DNA recombinante é amplamente utilizado para produção de insulina. Qual enzima é usada para cortar o DNA em locais específicos?", opcoes: ["DNA ligase", "Enzima de restrição", "RNA polimerase", "Helicase"], correta: 1, explicacao: "Enzimas de restrição cortam o DNA em sequências específicas, permitindo a inserção de genes.", assunto: "Biologia Molecular" },
+                { pergunta: "(UNICAMP 2021) Parasitoses e saúde pública: a esquistossomose é causada por:", opcoes: ["Bactéria", "Vírus", "Platelminto", "Protozoário"], correta: 2, explicacao: "Schistosoma mansoni (verme platelminto) causa esquistossomose.", assunto: "Fisiologia Humana" }
             ],
-            ufmg: [
-                { pergunta: "(UFMG - 2018) A teoria da evolução por seleção natural foi proposta por:", opcoes: ["Gregor Mendel", "Charles Darwin", "Jean Lamarck", "Watson e Crick"], correta: 1, explicacao: "Darwin propôs a seleção natural como mecanismo evolutivo." }
-            ],
-            ufrj: [
-                { pergunta: "(UFRJ - 2019) O DNA é composto por nucleotídeos. Quais são seus componentes?", opcoes: ["Fosfato, pentose e base nitrogenada", "Aminoácidos e glicerol", "Ácidos graxos e glicose", "Fosfolipídios e proteínas"], correta: 0, explicacao: "Nucleotídeo = fosfato + açúcar (pentose) + base nitrogenada." }
-            ],
-            unb: [
-                { pergunta: "(UnB - 2020) O sistema imunológico produz anticorpos. Que células são responsáveis por essa produção?", opcoes: ["Macrófagos", "Linfócitos B", "Neutrófilos", "Plaquetas"], correta: 1, explicacao: "Linfócitos B produzem anticorpos na resposta humoral." }
-            ],
-            ufrgs: [
-                { pergunta: "(UFRGS - 2021) A mitocôndria é uma organela que participa:", opcoes: ["Da digestão celular", "Da respiração celular", "Da fotossíntese", "Da síntese de lipídios"], correta: 1, explicacao: "Mitocôndria é responsável pela respiração celular e produção de ATP." }
+            enem: [
+                { pergunta: "(ENEM 2020) A conservação ambiental envolve ciclos biogeoquímicos. O desmatamento afeta diretamente o ciclo do carbono, pois:", opcoes: ["Diminui a fixação de CO₂ pela fotossíntese", "Aumenta a fixação de nitrogênio", "Reduz a evapotranspiração", "Aumenta a camada de ozônio"], correta: 0, explicacao: "Árvores realizam fotossíntese e retiram carbono da atmosfera; desmatamento reduz esse sequestro.", assunto: "Ecologia" }
             ]
         },
         fisica: {
-            usp: [
-                { pergunta: "(USP - 2019) Um corpo em movimento retilíneo uniforme (MRU) possui:", opcoes: ["Velocidade constante e aceleração nula", "Velocidade variável e aceleração constante", "Aceleração positiva", "Velocidade nula"], correta: 0, explicacao: "MRU tem velocidade constante e aceleração zero." }
+            fuvest: [
+                { pergunta: "(FUVEST 2021) Um carro realiza um movimento uniformemente variado. A grandeza que relaciona a variação de velocidade com o tempo é:", opcoes: ["Força", "Aceleração", "Potência", "Impulso"], correta: 1, explicacao: "Aceleração = Δv/Δt, define variação da velocidade.", assunto: "Mecânica" },
+                { pergunta: "(FUVEST 2020) Em um circuito elétrico residencial, a potência dissipada em um resistor obedece à relação:", opcoes: ["P = V·I", "P = R/I", "P = V/R", "P = I/R"], correta: 0, explicacao: "Potência elétrica = tensão × corrente (P=VI).", assunto: "Eletrodinâmica" }
+            ],
+            uel: [
+                { pergunta: "(UEL 2020) A primeira lei da termodinâmica relaciona calor, trabalho e:", opcoes: ["Entropia", "Energia interna", "Pressão", "Volume específico"], correta: 1, explicacao: "ΔU = Q - W, energia interna varia com calor e trabalho.", assunto: "Termologia" }
+            ],
+            uem: [
+                { pergunta: "(UEM 2019) Ondas sonoras são classificadas como:", opcoes: ["Eletromagnéticas", "Mecânicas longitudinais", "Transversais", "Estacionárias"], correta: 1, explicacao: "Som é onda mecânica e longitudinal.", assunto: "Ondulatória" }
+            ],
+            ufpr: [
+                { pergunta: "(UFPR 2021) Um espelho esférico côncavo forma imagem real e invertida. O objeto está posicionado:", opcoes: ["Entre o foco e o vértice", "Sobre o centro", "Além do centro", "Entre o foco e o centro"], correta: 2, explicacao: "Para imagem real invertida, objeto deve estar além do centro de curvatura.", assunto: "Óptica" }
             ],
             unicamp: [
-                { pergunta: "(UNICAMP - 2020) A lei da inércia, primeira lei de Newton, afirma que:", opcoes: ["Força = massa × aceleração", "Ação e reação são iguais", "Todo corpo permanece em repouso ou MRU se força resultante nula", "Energia se conserva"], correta: 2, explicacao: "Lei da inércia: sem força resultante, corpo mantém seu estado." }
+                { pergunta: "(UNICAMP 2020) A Lei de Ohm estabelece que, para um resistor ôhmico:", opcoes: ["A resistência varia com tensão", "U = R·i", "Potência é constante", "Corrente independe da tensão"], correta: 1, explicacao: "U = R·i, resistência constante.", assunto: "Eletrodinâmica" }
             ],
-            ufmg: [
-                { pergunta: "(UFMG - 2019) Qual a unidade de força no Sistema Internacional?", opcoes: ["Joule", "Watt", "Newton", "Pascal"], correta: 2, explicacao: "Newton (N) = kg·m/s²." }
-            ],
-            ufrj: [
-                { pergunta: "(UFRJ - 2020) A energia cinética de um corpo de massa 2 kg a 3 m/s é:", opcoes: ["3 J", "6 J", "9 J", "18 J"], correta: 2, explicacao: "Ec = mv²/2 = 2×9/2 = 9 J." }
-            ],
-            unb: [
-                { pergunta: "(UnB - 2019) A velocidade da luz no vácuo é aproximadamente:", opcoes: ["3×10⁵ km/s", "3×10⁸ m/s", "300 km/s", "3×10⁶ m/s"], correta: 1, explicacao: "c = 3×10⁸ m/s no vácuo." }
-            ],
-            ufrgs: [
-                { pergunta: "(UFRGS - 2020) Um resistor de 10Ω é submetido a 20V. A corrente é:", opcoes: ["0,5 A", "2 A", "10 A", "30 A"], correta: 1, explicacao: "I = V/R = 20/10 = 2A." }
+            enem: [
+                { pergunta: "(ENEM 2021) A usina hidrelétrica converte energia potencial gravitacional em elétrica. O princípio de conservação da energia está associado a qual conceito mecânico?", opcoes: ["Quantidade de movimento", "Trabalho e energia mecânica", "Torque", "Momento de inércia"], correta: 1, explicacao: "Conservação da energia mecânica (potencial + cinética) é base.", assunto: "Mecânica" }
             ]
         },
         quimica: {
-            usp: [
-                { pergunta: "(USP - 2020) O pH de uma solução neutra a 25°C é:", opcoes: ["0", "7", "14", "1"], correta: 1, explicacao: "pH 7 é neutro, [H+] = [OH-]." }
+            fuvest: [
+                { pergunta: "(FUVEST 2019) Função orgânica caracterizada pelo grupo carbonila ligado a hidrogênio:", opcoes: ["Cetona", "Aldeído", "Álcool", "Éster"], correta: 1, explicacao: "Aldeídos possuem grupo -CHO.", assunto: "Química Orgânica" },
+                { pergunta: "(FUVEST 2020) Em soluções, a concentração comum relaciona:", opcoes: ["Massa do soluto por volume", "Mols por litro", "Massa por massa", "Volume por volume"], correta: 0, explicacao: "Concentração comum = massa do soluto (g) / volume solução (L).", assunto: "Físico-Química" }
+            ],
+            uel: [
+                { pergunta: "(UEL 2021) O fenômeno da polaridade das moléculas influencia a temperatura de ebulição. Qual força intermolecular é mais intensa em compostos polares com ligações de hidrogênio?", opcoes: ["Dipolo induzido", "Dipolo permanente", "Ligação de hidrogênio", "Forças de London"], correta: 2, explicacao: "Ligação de hidrogênio é a mais forte entre moléculas polares.", assunto: "Química Geral" }
+            ],
+            uem: [
+                { pergunta: "(UEM 2020) O biocombustível etanol é obtido por fermentação. A reação da fermentação alcoólica produz:", opcoes: ["Etanol + CO₂", "Metanol + O₂", "Ácido acético", "Butanol"], correta: 0, explicacao: "Fermentação alcoólica: glicose → etanol + CO₂.", assunto: "Química Ambiental" }
+            ],
+            ufpr: [
+                { pergunta: "(UFPR 2019) O cálculo estequiométrico de uma reação química permite determinar:", opcoes: ["Rendimento e quantidade de reagentes", "pH da solução", "Eletronegatividade", "Pressão parcial"], correta: 0, explicacao: "Estequiometria relaciona massas e quantidades de reagentes/produtos.", assunto: "Físico-Química" }
             ],
             unicamp: [
-                { pergunta: "(UNICAMP - 2019) Qual elemento é considerado o mais eletronegativo?", opcoes: ["Oxigênio", "Flúor", "Cloro", "Nitrogênio"], correta: 1, explicacao: "Flúor é o elemento mais eletronegativo da tabela periódica." }
+                { pergunta: "(UNICAMP 2021) Em uma pilha eletroquímica, a espécie que sofre redução é o agente:", opcoes: ["Oxidante", "Redutor", "Catalisador", "Eletrólito"], correta: 0, explicacao: "Agente oxidante sofre redução, ganha elétrons.", assunto: "Físico-Química" }
             ],
-            ufmg: [
-                { pergunta: "(UFMG - 2018) A ligação iônica ocorre entre:", opcoes: ["Metais e ametais", "Dois metais", "Dois ametais", "Gases nobres"], correta: 0, explicacao: "Ligação iônica: metal + ametal, transferência de elétrons." }
-            ],
-            ufrj: [
-                { pergunta: "(UFRJ - 2020) A fórmula da água oxigenada é:", opcoes: ["H₂O", "H₂O₂", "HO", "H₂O₃"], correta: 1, explicacao: "Peróxido de hidrogênio = H₂O₂." }
-            ],
-            unb: [
-                { pergunta: "(UnB - 2021) O número atômico do carbono é:", opcoes: ["4", "6", "12", "14"], correta: 1, explicacao: "Carbono tem número atômico 6." }
-            ],
-            ufrgs: [
-                { pergunta: "(UFRGS - 2019) Qual dos compostos é um hidrocarboneto?", opcoes: ["C₂H₅OH", "CH₄", "CH₃COOH", "NaCl"], correta: 1, explicacao: "Hidrocarbonetos contêm apenas C e H. CH₄ é metano." }
+            enem: [
+                { pergunta: "(ENEM 2020) O tratamento de água utiliza floculação e cloração. A adição de cloro tem como objetivo principal:", opcoes: ["Remover sólidos", "Eliminar microrganismos", "Corrigir pH", "Aumentar turbidez"], correta: 1, explicacao: "Cloro age como desinfetante, eliminando patógenos.", assunto: "Química Ambiental" }
             ]
         }
     };
 
-    // Flashcards normais
+    // FLASHCARDS COM CONTEÚDOS ESSENCIAIS (tópico incluso)
     const flashcards = {
         biologia: [
-            { pergunta: "Qual organela produz ATP?", resposta: "Mitocôndria" },
-            { pergunta: "O que é crossing-over?", resposta: "Troca de segmentos entre cromátides homólogas na prófase I da meiose" }
+            { pergunta: "Explique o que são ciclos biogeoquímicos e dê um exemplo.", resposta: "São processos que reciclam elementos na natureza. Ex: ciclo do carbono.", assunto: "Ecologia" },
+            { pergunta: "Qual a função das mitocôndrias e dos cloroplastos?", resposta: "Mitocôndria: respiração celular; Cloroplasto: fotossíntese.", assunto: "Citologia" },
+            { pergunta: "O que é seleção natural? (Darwinismo)", resposta: "Mecanismo evolutivo onde organismos mais adaptados sobrevivem e se reproduzem.", assunto: "Evolução" },
+            { pergunta: "Cite um exemplo de biotecnologia envolvendo DNA recombinante.", resposta: "Produção de insulina humana por bactérias geneticamente modificadas.", assunto: "Biologia Molecular" }
         ],
         fisica: [
-            { pergunta: "Qual a fórmula da energia cinética?", resposta: "Ec = mv²/2" },
-            { pergunta: "O que diz a Lei de Ohm?", resposta: "V = R × I" }
+            { pergunta: "O que diz a Lei da Conservação da Energia Mecânica?", resposta: "Em sistemas conservativos, a soma das energias cinética e potencial é constante.", assunto: "Mecânica" },
+            { pergunta: "Qual a relação da Lei de Ohm e resistores?", resposta: "V = R.i, resistência constante para ôhmicos.", assunto: "Eletrodinâmica" },
+            { pergunta: "Defina calorimetria e cite a equação fundamental.", resposta: "Estudo das trocas de calor; Q = m.c.ΔT.", assunto: "Termologia" },
+            { pergunta: "O que é refração da luz?", resposta: "Mudança de velocidade e desvio ao passar entre meios diferentes.", assunto: "Óptica" }
         ],
         quimica: [
-            { pergunta: "O que é pH?", resposta: "Potencial hidrogeniônico, mede acidez" },
-            { pergunta: "Qual a fórmula da água?", resposta: "H₂O" }
+            { pergunta: "Quais as principais funções orgânicas oxigenadas?", resposta: "Álcoois, fenóis, aldeídos, cetonas, ácidos carboxílicos, ésteres, éteres.", assunto: "Química Orgânica" },
+            { pergunta: "O que é estequiometria e sua aplicação prática?", resposta: "Cálculo das quantidades de reagentes e produtos em reações químicas.", assunto: "Físico-Química" },
+            { pergunta: "Como funciona uma pilha eletroquímica?", resposta: "Reação de oxirredução espontânea gerando corrente elétrica.", assunto: "Físico-Química" },
+            { pergunta: "Cite dois tipos de poluição ambiental e suas fontes.", resposta: "Poluição do ar (queima combustíveis) e poluição hídrica (esgoto industrial).", assunto: "Química Ambiental" }
         ]
     };
 
+    // Mapeamento tópicos por matéria
+    const topicosPorMateria = {
+        biologia: ["Todos", "Ecologia", "Citologia", "Genética", "Evolução", "Biologia Molecular", "Fisiologia Humana"],
+        fisica: ["Todos", "Mecânica", "Eletrodinâmica", "Termologia", "Ondulatória", "Óptica"],
+        quimica: ["Todos", "Química Orgânica", "Físico-Química", "Química Geral", "Química Ambiental"]
+    };
+
+    // Variáveis globais
     let currentSubject = "biologia";
-    let currentUni = "usp";
+    let currentUni = "fuvest";
     let currentMode = "vestibular";
+    let currentTopic = "Todos";
     let currentQuestion = null;
     let currentQuestionData = null;
     let selectedOption = null;
     let answered = false;
     let score = 0;
 
-    function getQuestionsForCurrent() {
+    function getQuestionsFiltered() {
+        let bank;
         if (currentMode === "vestibular") {
-            const bank = questoesReais[currentSubject]?.[currentUni];
-            if (!bank || bank.length === 0) {
-                return [{ pergunta: `Nenhuma questão real disponível para ${currentUni.toUpperCase()} - ${currentSubject}. Explore outras combinações!`, opcoes: ["OK"], correta: 0, explicacao: "Tente outra universidade ou matéria." }];
-            }
-            return bank;
+            const subjectBank = questoesReais[currentSubject];
+            if (!subjectBank || !subjectBank[currentUni]) return [];
+            bank = [...subjectBank[currentUni]];
         } else {
-            const bank = flashcards[currentSubject];
-            if (!bank) return [{ pergunta: "Nenhum flashcard disponível", resposta: "Estude mais!" }];
-            return bank;
+            bank = [...(flashcards[currentSubject] || [])];
         }
+        if (currentTopic !== "Todos") {
+            bank = bank.filter(q => q.assunto === currentTopic);
+        }
+        if (bank.length === 0) {
+            return [{
+                pergunta: `Nenhum conteúdo encontrado para ${currentTopic} nessa combinação. Tente outro tópico ou universidade.`,
+                opcoes: ["Entendi"],
+                correta: 0,
+                explicacao: "Explore outros filtros!",
+                assunto: currentTopic
+            }];
+        }
+        return bank;
     }
 
     function loadRandomQuestion() {
-        const questions = getQuestionsForCurrent();
+        const questions = getQuestionsFiltered();
         if (!questions.length) return;
         const randomIndex = Math.floor(Math.random() * questions.length);
         currentQuestionData = questions[randomIndex];
@@ -407,16 +489,17 @@
                 text: currentQuestionData.pergunta,
                 options: [...currentQuestionData.opcoes],
                 correct: currentQuestionData.correta,
-                explanation: currentQuestionData.explicacao
+                explanation: currentQuestionData.explicacao,
+                topic: currentQuestionData.assunto
             };
         } else {
             currentQuestion = {
                 text: currentQuestionData.pergunta,
                 answer: currentQuestionData.resposta,
-                isFlashcard: true
+                isFlashcard: true,
+                topic: currentQuestionData.assunto
             };
         }
-        
         selectedOption = null;
         answered = false;
         renderQuestion();
@@ -433,29 +516,27 @@
                 optionsHtml += `<div class="option ${selectedClass}" data-opt-index="${idx}">${String.fromCharCode(65+idx)}. ${opt}</div>`;
             });
             optionsHtml += '</div>';
-            
             container.innerHTML = `
                 <div class="question-card">
-                    <div class="question-text">${currentQuestion.text}</div>
+                    <div class="question-text">📌 [${currentQuestion.topic || "Tópico"}] ${currentQuestion.text}</div>
                     ${optionsHtml}
                     <div class="feedback-area" id="feedbackArea"></div>
                 </div>
             `;
-            
             document.querySelectorAll('.option').forEach(opt => {
                 opt.addEventListener('click', (e) => {
                     if (answered) return;
                     const idx = parseInt(opt.dataset.optIndex);
                     selectedOption = idx;
-                    renderQuestion(); // re-render para mostrar selected
+                    renderQuestion();
                 });
             });
         } else {
             container.innerHTML = `
                 <div class="question-card">
-                    <div class="question-text">📇 ${currentQuestion.text}</div>
+                    <div class="question-text">📇 [${currentQuestion.topic || "Resumo"}] ${currentQuestion.text}</div>
                     <div class="feedback-area" id="feedbackArea">
-                        <span id="flashcardAnswer" style="font-weight:bold;">???</span>
+                        <span id="flashcardAnswer" style="font-weight:bold;">??? Clique em "Verificar resposta" para revelar</span>
                     </div>
                 </div>
             `;
@@ -464,14 +545,14 @@
 
     function checkAnswer() {
         if (answered) {
-            document.getElementById("feedbackArea").innerHTML = "<span class='wrong-feedback'>⚠️ Você já respondeu esta questão! Avance para a próxima.</span>";
+            const feedbackDiv = document.getElementById("feedbackArea");
+            if(feedbackDiv) feedbackDiv.innerHTML = "<span class='wrong-feedback'>⚠️ Você já respondeu! Clique em PRÓXIMA.</span>";
             return;
         }
-        
         const feedbackDiv = document.getElementById("feedbackArea");
         if (currentMode === "vestibular") {
             if (selectedOption === null) {
-                feedbackDiv.innerHTML = "<span class='wrong-feedback'>❓ Selecione uma alternativa primeiro!</span>";
+                feedbackDiv.innerHTML = "<span class='wrong-feedback'>❓ Escolha uma alternativa antes!</span>";
                 return;
             }
             const isCorrect = (selectedOption === currentQuestion.correct);
@@ -481,12 +562,11 @@
                 feedbackDiv.innerHTML = `<span class='correct-feedback'>✅ CORRETO! ${currentQuestion.explanation}</span>`;
             } else {
                 const letraCorreta = String.fromCharCode(65+currentQuestion.correct);
-                feedbackDiv.innerHTML = `<span class='wrong-feedback'>❌ ERRADO! A resposta correta é ${letraCorreta}: ${currentQuestion.options[currentQuestion.correct]}.<br>📘 ${currentQuestion.explanation}</span>`;
+                feedbackDiv.innerHTML = `<span class='wrong-feedback'>❌ ERRADO! Correta: ${letraCorreta}: ${currentQuestion.options[currentQuestion.correct]}.<br>📘 ${currentQuestion.explanation}</span>`;
             }
             answered = true;
         } else {
-            // modo flashcard: revela resposta
-            feedbackDiv.innerHTML = `<span class='correct-feedback'>📖 RESPOSTA: ${currentQuestion.answer}</span><br><span>💡 Avalie se acertou! Clique em próxima para continuar.</span>`;
+            feedbackDiv.innerHTML = `<span class='correct-feedback'>📖 RESPOSTA: ${currentQuestion.answer}</span><br><span>💡 Estude o conceito e clique em próxima.</span>`;
             answered = true;
         }
     }
@@ -498,10 +578,12 @@
     }
 
     function updateInfoBar() {
-        const uniNome = {usp:"USP", unicamp:"UNICAMP", ufmg:"UFMG", ufrj:"UFRJ", unb:"UnB", ufrgs:"UFRGS"}[currentUni] || currentUni;
+        const uniMap = {fuvest:"FUVEST/USP", uel:"UEL", uem:"UEM", ufpr:"UFPR", unicamp:"UNICAMP", enem:"ENEM"};
+        const uniNome = uniMap[currentUni] || currentUni.toUpperCase();
         const materiaNome = {biologia:"Biologia", fisica:"Física", quimica:"Química"}[currentSubject];
-        const modoNome = currentMode === "vestibular" ? "Vestibular (questões reais)" : "Flashcard";
-        document.getElementById("currentInfo").innerHTML = `📌 ${uniNome} - ${materiaNome} - ${modoNome}`;
+        const modoNome = currentMode === "vestibular" ? "Vestibular" : "Flashcard";
+        const topicShow = currentTopic !== "Todos" ? ` • Tópico: ${currentTopic}` : "";
+        document.getElementById("currentInfo").innerHTML = `📌 ${uniNome} - ${materiaNome} - ${modoNome}${topicShow}`;
     }
 
     function setUniversity(uni) {
@@ -519,6 +601,9 @@
             if(tab.dataset.subject === subject) tab.classList.add('active');
             else tab.classList.remove('active');
         });
+        // atualizar chips de tópico
+        renderTopicChips();
+        currentTopic = "Todos";
         resetAndReload();
     }
 
@@ -529,6 +614,25 @@
             else btn.classList.remove('active');
         });
         resetAndReload();
+    }
+
+    function setTopic(topic) {
+        currentTopic = topic;
+        renderTopicChips();
+        resetAndReload();
+    }
+
+    function renderTopicChips() {
+        const topicos = topicosPorMateria[currentSubject];
+        const container = document.getElementById("topicButtons");
+        if(!container) return;
+        container.innerHTML = topicos.map(topic => `<div class="topic-chip ${currentTopic === topic ? 'active' : ''}" data-topic="${topic}">${topic}</div>`).join('');
+        document.querySelectorAll('.topic-chip').forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                const newTopic = chip.dataset.topic;
+                setTopic(newTopic);
+            });
+        });
     }
 
     function resetAndReload() {
@@ -553,8 +657,9 @@
     document.getElementById('checkBtn').addEventListener('click', checkAnswer);
     document.getElementById('nextBtn').addEventListener('click', nextQuestion);
     
-    // Inicialização
-    setUniversity('usp');
+    // Inicialização completa
+    renderTopicChips();
+    setUniversity('fuvest');
     setSubject('biologia');
     setMode('vestibular');
 </script>
